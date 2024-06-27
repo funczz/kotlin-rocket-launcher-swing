@@ -25,5 +25,5 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass.set("hello.swing.MainJFrame")
+    mainClass.set("com.github.funczz.kotlin.rocket_launcher.swing.MainClass")
 }
