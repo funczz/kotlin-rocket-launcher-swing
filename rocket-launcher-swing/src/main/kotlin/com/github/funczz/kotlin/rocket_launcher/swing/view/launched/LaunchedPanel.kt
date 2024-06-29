@@ -1,8 +1,22 @@
 package com.github.funczz.kotlin.rocket_launcher.swing.view.launched
 
+import com.github.funczz.kotlin.rocket_launcher.swing.UiState
+import com.github.funczz.kotlin.rocket_launcher.swing.view.ViewCommand
+import com.github.funczz.kotlin.rocket_launcher.swing.view.ViewId
+import com.github.funczz.kotlin.rocket_launcher.swing.view.ViewPanel
 import javax.swing.*
 
-class LaunchedPanel : JPanel() {
+class LaunchedPanel : JPanel(), ViewPanel {
+
+    override val viewId: ViewId = ViewId.Launched
+
+    override fun render(output: UiState) {
+        if (output.viewId != viewId) return
+        if (output.samModel.isTransitioned) {
+            ViewCommand.rebuildView(this)
+            readyButton.isEnabled = true
+        }
+    }
 
     private val stateLabel: JLabel = JLabel().apply {
         name = "stateLabel"
@@ -14,11 +28,11 @@ class LaunchedPanel : JPanel() {
         name = "readyButton"
     }.also {
         it.text = "ready"
-        it.isEnabled = true
     }
 
     init {
         readyButton.addActionListener {
+            readyButton.isEnabled = false
             LaunchedCommand.ready()
         }
 

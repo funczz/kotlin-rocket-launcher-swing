@@ -10,10 +10,17 @@ import kotlin.system.exitProcess
 
 class MainJFrame(title: String = "") : JFrame(title) {
 
+    private var _windowClosing: () -> Unit = {}
+
+    fun windowClosing(function: () -> Unit) {
+        _windowClosing = function
+    }
+
     init {
         defaultCloseOperation = EXIT_ON_CLOSE
         addWindowListener(object : WindowAdapter() {
             override fun windowClosing(e: WindowEvent) {
+                _windowClosing()
                 exitProcess(0) //System.exit(0)
             }
         })
