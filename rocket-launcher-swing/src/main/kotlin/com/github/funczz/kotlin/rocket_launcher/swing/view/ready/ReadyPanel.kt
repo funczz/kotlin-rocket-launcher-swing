@@ -13,7 +13,7 @@ class ReadyPanel : JPanel(), ViewPanel {
     override fun render(output: UiState) {
         if (output.viewId != viewId) return
         if (output.samModel.isTransitioned) {
-            ViewCommand.rebuildView(this)
+            ViewCommand.rebuildView(panel = this)
             startButton.isEnabled = false
             inputField.text = ""
         }

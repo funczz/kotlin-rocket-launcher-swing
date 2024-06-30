@@ -5,6 +5,6 @@ import com.github.funczz.kotlin.notifier.Notifier
 object UiPresenter {
 
     fun render(output: UiState) {
-        Notifier.getDefault().post(output, id = output.viewId.id.toRegex())
+        Notifier.getDefault().post(item = output, id = output.viewId.id.toRegex())
     }
 }

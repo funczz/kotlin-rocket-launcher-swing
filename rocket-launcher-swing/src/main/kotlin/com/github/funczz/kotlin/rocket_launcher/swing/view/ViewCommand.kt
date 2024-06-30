@@ -9,7 +9,7 @@ object ViewCommand {
 
     fun rebuildView(panel: JPanel) {
         MainJFrame.getInstance().invokeAndWait {
-            it.rebuildContentPane(panel) {
+            it.rebuildContentPane(component = panel) {
                 it.pack()
                 it.isVisible = true
             }
