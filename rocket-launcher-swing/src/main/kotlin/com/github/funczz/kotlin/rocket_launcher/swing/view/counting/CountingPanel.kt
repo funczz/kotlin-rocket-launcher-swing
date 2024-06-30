@@ -18,11 +18,16 @@ class CountingPanel : JPanel(), ViewPanel {
         if (currentCounter != output.samModel.currentCounter)
             currentCounter = output.samModel.currentCounter
 
+        counterLabel.text = currentCounter.toString()
+
         if (output.samModel.isTransitioned) {
             ViewCommand.rebuildView(this)
             abortButton.isEnabled = true
+            CountingCommand.start(initialCounter = initialCounter)
         }
     }
+
+    val subscriber = CountingPanelCountingJobSubscriber()
 
     private var initialCounter = 0
 
@@ -49,6 +54,7 @@ class CountingPanel : JPanel(), ViewPanel {
     init {
         abortButton.addActionListener {
             abortButton.isEnabled = false
+            if (subscriber.isStarted) subscriber.breakNow()
             CountingCommand.abort(initialCounter = initialCounter, currentCounter = currentCounter)
         }
 
