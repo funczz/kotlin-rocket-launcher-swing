@@ -20,7 +20,7 @@ repositories {
 
 dependencies {
     implementation("com.github.funczz:rocket-launcher-core:0.2.0")
-    implementation("com.github.funczz:notifier:0.3.0")
+    implementation("com.github.funczz:notifier:0.4.0")
 }
 
 application {

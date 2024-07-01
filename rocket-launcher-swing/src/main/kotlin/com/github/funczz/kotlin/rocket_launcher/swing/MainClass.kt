@@ -12,14 +12,13 @@ import com.github.funczz.kotlin.rocket_launcher.swing.view.launched.LaunchedPane
 import com.github.funczz.kotlin.rocket_launcher.swing.view.ready.ReadyPanel
 import java.util.*
 import java.util.concurrent.Executors
-import java.util.concurrent.ThreadPoolExecutor
 
 class MainClass {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
             //イベントを処理するスレッドプールを生成する
-            val executor = Executors.newCachedThreadPool() as ThreadPoolExecutor
+            val executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())
 
             //JFrameを初期化する
             MainJFrame.getInstance().windowClosing {
