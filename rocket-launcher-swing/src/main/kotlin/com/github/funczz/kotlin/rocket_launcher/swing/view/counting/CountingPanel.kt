@@ -1,20 +1,25 @@
 package com.github.funczz.kotlin.rocket_launcher.swing.view.counting
 
+import com.github.funczz.kotlin.notifier.DefaultNotifierSubscription
 import com.github.funczz.kotlin.notifier.Notifier
 import com.github.funczz.kotlin.notifier.property.RONotifierProperty
 import com.github.funczz.kotlin.notifier.property.ReadOnlyNotifierProperty
 import com.github.funczz.kotlin.rocket_launcher.swing.UiPresenter
 import com.github.funczz.kotlin.rocket_launcher.swing.UiState
+import com.github.funczz.kotlin.rocket_launcher.swing.job.JobId
 import com.github.funczz.kotlin.rocket_launcher.swing.view.ViewId
 import com.github.funczz.kotlin.rocket_launcher.swing.view.ViewPanel
 import java.util.*
+import java.util.concurrent.Executor
 import javax.swing.*
 
 class CountingPanel(
 
-    notifier: Notifier = Notifier.getDefault()
+    private val notifier: Notifier = Notifier.getDefault(),
 
-) : JPanel(), ViewPanel {
+    executor: Optional<Executor> = Optional.empty(),
+
+    ) : JPanel(), ViewPanel {
 
     override val viewId: ViewId = ViewId.Counting
 
@@ -23,20 +28,23 @@ class CountingPanel(
         if (output.samModel.isTransitioned) {
             CountingViewCommand.startView(panel = this)
             abortButton.isEnabled = true
-            CountingViewCommand.start(initialCounter = initialCounter.getValue())
+            CountingViewCommand.start(
+                notifier = notifier,
+                initialCounter = initialCounter.getValue()
+            )
         }
     }
 
-    val subscriber = CountingPanelCountingJobSubscriber()
+    private val subscriber = CountingPanelCountingJobSubscriber()
 
     private var initialCounter: ReadOnlyNotifierProperty<Int> = RONotifierProperty(
         initialValue = 0,
         name = "%s%s".format(
             UiPresenter.INITIAL_COUNTER_NOTIFIER_NAME,
-            ViewId.Counting.id)
-        ,
+            ViewId.Counting.id
+        ),
         notifier = notifier,
-        executor = Optional.empty()
+        executor = executor,
     )
 
     private var currentCounter: ReadOnlyNotifierProperty<Int> = RONotifierProperty(
@@ -46,7 +54,7 @@ class CountingPanel(
             ViewId.Counting.id
         ),
         notifier = notifier,
-        executor = Optional.empty()
+        executor = executor,
     ).apply {
         subscriber.onNext { counterLabel.text = it.toString() }
     }
@@ -78,6 +86,30 @@ class CountingPanel(
             add(abortButton)
             add(Box.createVerticalBox())
         }
+
+        /**
+         * イベントバスに Job サブスクリプションを追加する
+         */
+        notifier.subscribe(
+            DefaultNotifierSubscription(
+                subscriber = subscriber,
+                name = JobId.Counting.id,
+                executor = executor,
+            )
+        )
+
+        /**
+         * イベントバスに画面遷移サブスクリプションを追加する
+         */
+        RONotifierProperty(
+            initialValue = UiState(viewId = ViewId.Ready),
+            name = "%s%s".format(
+                UiPresenter.UI_STATE_NOTIFIER_NAME,
+                viewId.id
+            ),
+            notifier = notifier,
+            executor = executor,
+        ).subscriber.onNext { render(output = it) }
     }
 
 }
