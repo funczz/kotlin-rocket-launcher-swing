@@ -10,7 +10,7 @@ object ViewSubscriptionFactory {
         val subscriber = ViewSubscriber(viewPanel = viewPanel)
         return DefaultNotifierSubscription(
             subscriber = subscriber,
-            id = viewPanel.viewId.id,
+            name = viewPanel.viewId.id,
             executor = executor,
         )
     }

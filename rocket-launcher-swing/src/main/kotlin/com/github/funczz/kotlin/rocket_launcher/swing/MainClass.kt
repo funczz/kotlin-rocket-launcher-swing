@@ -62,7 +62,7 @@ class MainClass {
             Notifier.getDefault().subscribe(
                 DefaultNotifierSubscription(
                     subscriber = countingPanel.subscriber,
-                    id = JobId.Counting.id,
+                    name = JobId.Counting.id,
                     executor = Optional.ofNullable(executor)
                 )
             )

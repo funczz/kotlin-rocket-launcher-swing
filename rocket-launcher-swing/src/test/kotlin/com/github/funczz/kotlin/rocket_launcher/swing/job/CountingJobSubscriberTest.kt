@@ -1,5 +1,6 @@
 package com.github.funczz.kotlin.rocket_launcher.swing.job
 
+import com.github.funczz.kotlin.notifier.DefaultNotifierSubscription
 import com.github.funczz.kotlin.notifier.Notifier
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -17,24 +18,24 @@ class CountingJobSubscriberTest {
 
     @Test
     fun `0 以上の値を post 後、カウンターが 0 になり処理が完了する`() {
-        notifier.post(item = 3, id = id.toRegex())
+        notifier.post(item = 3, name = name.toRegex())
         TimeUnit.MILLISECONDS.sleep(500L)
         assertEquals(0, subscriber.counter)
     }
 
     @Test
     fun `0 以上の値を post して処理が完了後、再度 0 以上の値を post する`() {
-        notifier.post(item = 3, id = id.toRegex())
+        notifier.post(item = 3, name = name.toRegex())
         TimeUnit.MILLISECONDS.sleep(500L)
         assertEquals(0, subscriber.counter)
-        notifier.post(item = 3, id = id.toRegex())
+        notifier.post(item = 3, name = name.toRegex())
         TimeUnit.MILLISECONDS.sleep(500L)
         assertEquals(0, subscriber.counter)
     }
 
     @Test
     fun `0 以上の値を post 後にキャンセルすると、カウンターが 0 にならずに処理が完了する`() {
-        notifier.post(item = 3, id = id.toRegex())
+        notifier.post(item = 3, name = name.toRegex())
         TimeUnit.MILLISECONDS.sleep(100L)
         subscriber.breakNow()
         TimeUnit.MILLISECONDS.sleep(400L)
@@ -43,16 +44,16 @@ class CountingJobSubscriberTest {
 
     @Test
     fun `0 未満の値を post すると、サブスクライバの onError が呼び出される`() {
-        notifier.post(item = -1, id = id.toRegex())
+        notifier.post(item = -1, name = name.toRegex())
         TimeUnit.MILLISECONDS.sleep(100L)
         assertEquals(IllegalArgumentException::class.java, subscriber.error.get()::class.java)
     }
 
     @Test
     fun `二重に post すると、サブスクライバの onError が呼び出される`() {
-        notifier.post(item = 3, id = id.toRegex())
+        notifier.post(item = 3, name = name.toRegex())
         TimeUnit.MILLISECONDS.sleep(50L)
-        notifier.post(item = 3, id = id.toRegex())
+        notifier.post(item = 3, name = name.toRegex())
         TimeUnit.MILLISECONDS.sleep(500L)
         assertNotEquals(0, subscriber.counter)
         assertEquals(IllegalStateException::class.java, subscriber.error.get()::class.java)
@@ -64,7 +65,14 @@ class CountingJobSubscriberTest {
         notifier = Notifier()
         executor = Executors.newCachedThreadPool() as ThreadPoolExecutor
         subscriber = StdoutCountingJobSubscriber()
-        notifier.subscribe(subscriber = subscriber, id = id, executor = Optional.of(executor))
+        notifier.subscribe(
+            subscription = DefaultNotifierSubscription(
+                subscriber = subscriber,
+                name = name,
+                executor = Optional.ofNullable(executor)
+            ),
+            executor = executor
+        )
     }
 
     @AfterEach
@@ -77,7 +85,7 @@ class CountingJobSubscriberTest {
 
     private lateinit var executor: ThreadPoolExecutor
 
-    private val id = "job/counting"
+    private val name = "job/counting"
 
     private lateinit var subscriber: StdoutCountingJobSubscriber
 
