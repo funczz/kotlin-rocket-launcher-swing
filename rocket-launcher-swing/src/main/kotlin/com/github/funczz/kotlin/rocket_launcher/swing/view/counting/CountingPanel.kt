@@ -1,7 +1,6 @@
 package com.github.funczz.kotlin.rocket_launcher.swing.view.counting
 
 import com.github.funczz.kotlin.rocket_launcher.swing.UiState
-import com.github.funczz.kotlin.rocket_launcher.swing.view.ViewCommand
 import com.github.funczz.kotlin.rocket_launcher.swing.view.ViewId
 import com.github.funczz.kotlin.rocket_launcher.swing.view.ViewPanel
 import javax.swing.*
@@ -21,9 +20,9 @@ class CountingPanel : JPanel(), ViewPanel {
         counterLabel.text = currentCounter.toString()
 
         if (output.samModel.isTransitioned) {
-            ViewCommand.rebuildView(panel = this)
+            CountingViewCommand.startView(panel = this)
             abortButton.isEnabled = true
-            CountingCommand.start(initialCounter = initialCounter)
+            CountingViewCommand.start(initialCounter = initialCounter)
         }
     }
 
@@ -32,12 +31,6 @@ class CountingPanel : JPanel(), ViewPanel {
     private var initialCounter = 0
 
     private var currentCounter = 0
-
-    private val stateLabel: JLabel = JLabel().apply {
-        name = "stateLabel"
-    }.also {
-        it.text = "Counting."
-    }
 
     private val counterLabel: JLabel = JLabel().apply {
         name = "counterLabel"
@@ -55,11 +48,10 @@ class CountingPanel : JPanel(), ViewPanel {
         abortButton.addActionListener {
             abortButton.isEnabled = false
             if (subscriber.isStarted) subscriber.breakNow()
-            CountingCommand.abort(initialCounter = initialCounter, currentCounter = currentCounter)
+            CountingViewCommand.abort(initialCounter = initialCounter, currentCounter = currentCounter)
         }
 
         layout = BoxLayout(this, BoxLayout.Y_AXIS).apply {
-            add(stateLabel)
             add(counterLabel)
             add(abortButton)
             add(Box.createVerticalBox())

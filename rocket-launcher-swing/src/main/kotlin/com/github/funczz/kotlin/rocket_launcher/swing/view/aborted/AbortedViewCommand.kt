@@ -1,21 +1,22 @@
-package com.github.funczz.kotlin.rocket_launcher.swing.view.launched
+package com.github.funczz.kotlin.rocket_launcher.swing.view.aborted
 
 import com.github.funczz.kotlin.rocket_launcher.core.event.Initialize
 import com.github.funczz.kotlin.rocket_launcher.core.model.InputData
 import com.github.funczz.kotlin.rocket_launcher.core.sam.RocketLauncherSamAction
 import com.github.funczz.kotlin.rocket_launcher.core.sam.RocketLauncherSamModel
-import com.github.funczz.kotlin.rocket_launcher.core.state.Launched
+import com.github.funczz.kotlin.rocket_launcher.core.state.Aborted
 import com.github.funczz.kotlin.rocket_launcher.swing.UiPresenter
 import com.github.funczz.kotlin.rocket_launcher.swing.UiRepresentation
+import com.github.funczz.kotlin.rocket_launcher.swing.view.ViewCommand
 
-object LaunchedCommand {
+object AbortedViewCommand : ViewCommand {
 
     fun ready() {
         val rocketLauncherSamModel = RocketLauncherSamModel()
         val inputData = InputData(
             initialCounter = 0,
             currentCounter = 0,
-            state = Launched,
+            state = Aborted,
             event = Initialize,
         )
         RocketLauncherSamAction.accept(input = inputData, present = rocketLauncherSamModel::present)
