@@ -14,6 +14,7 @@ class LaunchedPanel : JPanel(), ViewPanel {
         if (output.samModel.isTransitioned) {
             LaunchedViewCommand.startView(panel = this)
             readyButton.isEnabled = true
+            repaint()
         }
     }
 

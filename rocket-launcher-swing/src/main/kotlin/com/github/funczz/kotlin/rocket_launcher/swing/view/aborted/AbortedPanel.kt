@@ -14,6 +14,7 @@ class AbortedPanel : JPanel(), ViewPanel {
         if (output.samModel.isTransitioned) {
             AbortedViewCommand.startView(panel = this)
             readyButton.isEnabled = true
+            repaint()
         }
     }
 
