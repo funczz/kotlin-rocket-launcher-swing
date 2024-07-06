@@ -13,8 +13,8 @@ import com.github.funczz.kotlin.rocket_launcher.swing.view.ViewCommand
 
 object CountingViewCommand : ViewCommand {
 
-    fun start(initialCounter: Int) {
-        Notifier.getDefault().post(item = initialCounter, id = JobId.Counting.id.toRegex())
+    fun start(notifier: Notifier, initialCounter: Int) {
+        notifier.post(item = initialCounter, name = JobId.Counting.id.toRegex())
     }
 
     fun abort(initialCounter: Int, currentCounter: Int) {

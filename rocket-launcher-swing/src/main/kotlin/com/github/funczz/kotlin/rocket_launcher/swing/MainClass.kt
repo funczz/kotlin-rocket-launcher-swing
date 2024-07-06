@@ -1,71 +1,36 @@
 package com.github.funczz.kotlin.rocket_launcher.swing
 
-import com.github.funczz.kotlin.notifier.DefaultNotifierSubscription
-import com.github.funczz.kotlin.notifier.Notifier
 import com.github.funczz.kotlin.rocket_launcher.core.model.RocketLauncher
 import com.github.funczz.kotlin.rocket_launcher.core.sam.RocketLauncherSamModel
-import com.github.funczz.kotlin.rocket_launcher.swing.job.JobId
-import com.github.funczz.kotlin.rocket_launcher.swing.view.ViewSubscriptionFactory
 import com.github.funczz.kotlin.rocket_launcher.swing.view.aborted.AbortedPanel
 import com.github.funczz.kotlin.rocket_launcher.swing.view.counting.CountingPanel
 import com.github.funczz.kotlin.rocket_launcher.swing.view.launched.LaunchedPanel
 import com.github.funczz.kotlin.rocket_launcher.swing.view.ready.ReadyPanel
 import java.util.*
-import java.util.concurrent.Executors
 
 class MainClass {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            //イベントを処理するスレッドプールを生成する
-            val executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())
+            //イベントバスを取得する
+            val notifier = UiPresenter.notifier
+
+            //Executorを取得する
+            val executor = UiPresenter.executor
 
             //JFrameを初期化する
             MainJFrame.getInstance().windowClosing {
-                Notifier.getDefault().unsubscribeAll()
+                notifier.unsubscribeAll()
                 executor.shutdownNow()
             }
 
             /**
-             * イベントバスに View サブスクリプションを追加する
+             * 各Viewを初期化して、イベントバスにサブスクリプションを追加する
              */
-            Notifier.getDefault().subscribe(
-                ViewSubscriptionFactory.new(
-                    viewPanel = ReadyPanel(),
-                    executor = Optional.ofNullable(executor)
-                )
-            )
-            val countingPanel = CountingPanel()
-            Notifier.getDefault().subscribe(
-                ViewSubscriptionFactory.new(
-                    viewPanel = countingPanel,
-                    executor = Optional.ofNullable(executor)
-                )
-            )
-            Notifier.getDefault().subscribe(
-                ViewSubscriptionFactory.new(
-                    viewPanel = LaunchedPanel(),
-                    executor = Optional.ofNullable(executor)
-                )
-            )
-            Notifier.getDefault().subscribe(
-                ViewSubscriptionFactory.new(
-                    viewPanel = AbortedPanel(),
-                    executor = Optional.ofNullable(executor)
-                )
-            )
-
-
-            /**
-             * イベントバスに Job サブスクリプションを追加する
-             */
-            Notifier.getDefault().subscribe(
-                DefaultNotifierSubscription(
-                    subscriber = countingPanel.subscriber,
-                    id = JobId.Counting.id,
-                    executor = Optional.ofNullable(executor)
-                )
-            )
+            ReadyPanel(notifier = notifier, executor = Optional.of(executor))
+            CountingPanel(notifier = notifier, executor = Optional.of(executor))
+            LaunchedPanel(notifier = notifier, executor = Optional.of(executor))
+            AbortedPanel(notifier = notifier, executor = Optional.of(executor))
 
             /**
              * アクションを開始する
