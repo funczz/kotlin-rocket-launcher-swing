@@ -5,7 +5,7 @@ import com.github.funczz.kotlin.rocket_launcher.swing.invokeAndWait
 import com.github.funczz.kotlin.rocket_launcher.swing.rebuildContentPane
 import javax.swing.JPanel
 
-object ViewCommand {
+interface ViewCommand {
 
     fun rebuildView(panel: JPanel) {
         MainJFrame.getInstance().invokeAndWait {

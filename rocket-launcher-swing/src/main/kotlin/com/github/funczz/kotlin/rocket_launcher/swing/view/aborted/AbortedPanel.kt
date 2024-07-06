@@ -1,7 +1,6 @@
 package com.github.funczz.kotlin.rocket_launcher.swing.view.aborted
 
 import com.github.funczz.kotlin.rocket_launcher.swing.UiState
-import com.github.funczz.kotlin.rocket_launcher.swing.view.ViewCommand
 import com.github.funczz.kotlin.rocket_launcher.swing.view.ViewId
 import com.github.funczz.kotlin.rocket_launcher.swing.view.ViewPanel
 import javax.swing.*
@@ -13,7 +12,7 @@ class AbortedPanel : JPanel(), ViewPanel {
     override fun render(output: UiState) {
         if (output.viewId != viewId) return
         if (output.samModel.isTransitioned) {
-            ViewCommand.rebuildView(panel = this)
+            AbortedViewCommand.rebuildView(panel = this)
             readyButton.isEnabled = true
         }
     }

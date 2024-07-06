@@ -7,8 +7,9 @@ import com.github.funczz.kotlin.rocket_launcher.core.sam.RocketLauncherSamModel
 import com.github.funczz.kotlin.rocket_launcher.core.state.Aborted
 import com.github.funczz.kotlin.rocket_launcher.swing.UiPresenter
 import com.github.funczz.kotlin.rocket_launcher.swing.UiRepresentation
+import com.github.funczz.kotlin.rocket_launcher.swing.view.ViewCommand
 
-object AbortedViewCommand {
+object AbortedViewCommand : ViewCommand {
 
     fun ready() {
         val rocketLauncherSamModel = RocketLauncherSamModel()

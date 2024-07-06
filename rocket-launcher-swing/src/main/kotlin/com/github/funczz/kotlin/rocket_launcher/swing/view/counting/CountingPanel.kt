@@ -1,7 +1,6 @@
 package com.github.funczz.kotlin.rocket_launcher.swing.view.counting
 
 import com.github.funczz.kotlin.rocket_launcher.swing.UiState
-import com.github.funczz.kotlin.rocket_launcher.swing.view.ViewCommand
 import com.github.funczz.kotlin.rocket_launcher.swing.view.ViewId
 import com.github.funczz.kotlin.rocket_launcher.swing.view.ViewPanel
 import javax.swing.*
@@ -21,7 +20,7 @@ class CountingPanel : JPanel(), ViewPanel {
         counterLabel.text = currentCounter.toString()
 
         if (output.samModel.isTransitioned) {
-            ViewCommand.rebuildView(panel = this)
+            CountingViewCommand.rebuildView(panel = this)
             abortButton.isEnabled = true
             CountingViewCommand.start(initialCounter = initialCounter)
         }

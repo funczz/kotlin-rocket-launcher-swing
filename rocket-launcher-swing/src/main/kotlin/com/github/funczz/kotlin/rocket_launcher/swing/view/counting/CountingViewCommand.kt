@@ -9,8 +9,9 @@ import com.github.funczz.kotlin.rocket_launcher.core.state.Counting
 import com.github.funczz.kotlin.rocket_launcher.swing.UiPresenter
 import com.github.funczz.kotlin.rocket_launcher.swing.UiRepresentation
 import com.github.funczz.kotlin.rocket_launcher.swing.job.JobId
+import com.github.funczz.kotlin.rocket_launcher.swing.view.ViewCommand
 
-object CountingViewCommand {
+object CountingViewCommand : ViewCommand {
 
     fun start(initialCounter: Int) {
         Notifier.getDefault().post(item = initialCounter, id = JobId.Counting.id.toRegex())
