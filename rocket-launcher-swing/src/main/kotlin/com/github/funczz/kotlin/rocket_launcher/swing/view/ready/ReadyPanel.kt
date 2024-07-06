@@ -18,12 +18,6 @@ class ReadyPanel : JPanel(), ViewPanel {
         }
     }
 
-    private val stateLabel: JLabel = JLabel().apply {
-        name = "stateLabel"
-    }.also {
-        it.text = "Ready."
-    }
-
     private val inputField: JTextField = JTextField().apply {
         name = "inputField"
     }
@@ -48,7 +42,6 @@ class ReadyPanel : JPanel(), ViewPanel {
         }
 
         layout = BoxLayout(this, BoxLayout.Y_AXIS).apply {
-            add(stateLabel)
             add(inputField)
             add(startButton)
             add(Box.createVerticalBox())

@@ -32,12 +32,6 @@ class CountingPanel : JPanel(), ViewPanel {
 
     private var currentCounter = 0
 
-    private val stateLabel: JLabel = JLabel().apply {
-        name = "stateLabel"
-    }.also {
-        it.text = "Counting."
-    }
-
     private val counterLabel: JLabel = JLabel().apply {
         name = "counterLabel"
     }.also {
@@ -58,7 +52,6 @@ class CountingPanel : JPanel(), ViewPanel {
         }
 
         layout = BoxLayout(this, BoxLayout.Y_AXIS).apply {
-            add(stateLabel)
             add(counterLabel)
             add(abortButton)
             add(Box.createVerticalBox())
