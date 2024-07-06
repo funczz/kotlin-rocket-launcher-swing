@@ -12,7 +12,7 @@ class LaunchedPanel : JPanel(), ViewPanel {
     override fun render(output: UiState) {
         if (output.viewId != viewId) return
         if (output.samModel.isTransitioned) {
-            LaunchedViewCommand.rebuildView(panel = this)
+            LaunchedViewCommand.startView(panel = this)
             readyButton.isEnabled = true
         }
     }

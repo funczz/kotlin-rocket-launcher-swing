@@ -7,7 +7,7 @@ import javax.swing.JPanel
 
 interface ViewCommand {
 
-    fun rebuildView(panel: JPanel) {
+    fun startView(panel: JPanel) {
         MainJFrame.getInstance().invokeAndWait {
             it.rebuildContentPane(component = panel) {
                 it.pack()

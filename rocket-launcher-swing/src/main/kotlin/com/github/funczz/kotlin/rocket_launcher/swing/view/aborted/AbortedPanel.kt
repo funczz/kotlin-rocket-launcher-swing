@@ -12,7 +12,7 @@ class AbortedPanel : JPanel(), ViewPanel {
     override fun render(output: UiState) {
         if (output.viewId != viewId) return
         if (output.samModel.isTransitioned) {
-            AbortedViewCommand.rebuildView(panel = this)
+            AbortedViewCommand.startView(panel = this)
             readyButton.isEnabled = true
         }
     }

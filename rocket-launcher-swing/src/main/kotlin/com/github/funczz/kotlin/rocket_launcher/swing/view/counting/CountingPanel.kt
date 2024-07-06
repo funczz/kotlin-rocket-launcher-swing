@@ -20,7 +20,7 @@ class CountingPanel : JPanel(), ViewPanel {
         counterLabel.text = currentCounter.toString()
 
         if (output.samModel.isTransitioned) {
-            CountingViewCommand.rebuildView(panel = this)
+            CountingViewCommand.startView(panel = this)
             abortButton.isEnabled = true
             CountingViewCommand.start(initialCounter = initialCounter)
         }
