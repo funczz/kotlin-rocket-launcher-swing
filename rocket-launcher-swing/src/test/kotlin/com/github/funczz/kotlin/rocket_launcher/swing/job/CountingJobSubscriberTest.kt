@@ -73,6 +73,7 @@ class CountingJobSubscriberTest {
             ),
             executor = executor
         )
+        TimeUnit.MILLISECONDS.sleep(500L)
     }
 
     @AfterEach
