@@ -33,7 +33,7 @@ class LaunchedPanel : JPanel(), ViewPanel {
     init {
         readyButton.addActionListener {
             readyButton.isEnabled = false
-            LaunchedCommand.ready()
+            LaunchedViewCommand.ready()
         }
 
         layout = BoxLayout(this, BoxLayout.Y_AXIS).apply {

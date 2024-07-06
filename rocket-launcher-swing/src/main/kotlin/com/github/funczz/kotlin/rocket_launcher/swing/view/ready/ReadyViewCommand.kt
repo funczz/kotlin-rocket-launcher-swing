@@ -8,7 +8,7 @@ import com.github.funczz.kotlin.rocket_launcher.core.state.Ready
 import com.github.funczz.kotlin.rocket_launcher.swing.UiPresenter
 import com.github.funczz.kotlin.rocket_launcher.swing.UiRepresentation
 
-object ReadyCommand {
+object ReadyViewCommand {
 
     fun start(text: String) {
         val counter = text.toInt()

@@ -23,7 +23,7 @@ class CountingPanel : JPanel(), ViewPanel {
         if (output.samModel.isTransitioned) {
             ViewCommand.rebuildView(panel = this)
             abortButton.isEnabled = true
-            CountingCommand.start(initialCounter = initialCounter)
+            CountingViewCommand.start(initialCounter = initialCounter)
         }
     }
 
@@ -55,7 +55,7 @@ class CountingPanel : JPanel(), ViewPanel {
         abortButton.addActionListener {
             abortButton.isEnabled = false
             if (subscriber.isStarted) subscriber.breakNow()
-            CountingCommand.abort(initialCounter = initialCounter, currentCounter = currentCounter)
+            CountingViewCommand.abort(initialCounter = initialCounter, currentCounter = currentCounter)
         }
 
         layout = BoxLayout(this, BoxLayout.Y_AXIS).apply {

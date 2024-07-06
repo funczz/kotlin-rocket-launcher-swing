@@ -45,7 +45,7 @@ class ReadyPanel : JPanel(), ViewPanel {
 
         startButton.addActionListener {
             startButton.isEnabled = false
-            ReadyCommand.start(text = inputField.text)
+            ReadyViewCommand.start(text = inputField.text)
         }
 
         layout = BoxLayout(this, BoxLayout.Y_AXIS).apply {

@@ -33,7 +33,7 @@ class AbortedPanel : JPanel(), ViewPanel {
     init {
         readyButton.addActionListener {
             readyButton.isEnabled = false
-            AbortedCommand.ready()
+            AbortedViewCommand.ready()
         }
 
         layout = BoxLayout(this, BoxLayout.Y_AXIS).apply {
